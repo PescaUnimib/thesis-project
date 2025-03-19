@@ -1,0 +1,10 @@
+Cose da fare
+1. Implementare i 7 antipattern
+2. Recuperare i tempi di esecuzione dei metodi tramite criterion
+
+
+
+    // let count_offset = 0.05;
+    // let cpu_th = 0.01;
+    // let option = 0;
+    // antipatterns::circuit_treasure_hunt::detect_cth(countOffset, cpuTh, option);
