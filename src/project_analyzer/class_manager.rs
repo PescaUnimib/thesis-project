@@ -9,11 +9,8 @@ use std::collections::HashMap;
 pub fn show_tree_methods(result: HashMap<String, HashMap<String, Vec<String>>>, path: &str) {
     let mut methods = HashMap::new();
     for (folder, files) in result.iter() {
-        //println!("Cartella: {}", folder);
         for (file, functions) in files.iter() {
-            //println!("  - File: {}", file);
-            for function in functions {
-                //println!("      - Funzione: {}", function);
+            for _function in functions {
                 let file_path = format!("{}\\src\\{}\\{}", path, folder, file);
                 for (method_name, count) in project_analyzer::class_manager::count_methods(&file_path) {
                     methods.entry(method_name).or_insert(count);

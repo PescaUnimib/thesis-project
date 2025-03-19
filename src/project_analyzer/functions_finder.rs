@@ -4,7 +4,7 @@ use std::path::Path;
 use walkdir::WalkDir;
 use syn::{Item, ItemImpl, ImplItem, ItemFn};
 
-#[allow(dead_code)]
+/// Stampa la mappa dei file di progetto
 pub fn find_functions_by_folder(is_public: bool, path: &str) -> HashMap<String, HashMap<String, Vec<String>>> {
     let mut folder_map: HashMap<String, HashMap<String, Vec<String>>> = HashMap::new();
     let base_path = Path::new(path);
@@ -15,7 +15,6 @@ pub fn find_functions_by_folder(is_public: bool, path: &str) -> HashMap<String, 
         .filter(|e| e.file_name().to_string_lossy().ends_with(".rs"))
     {
         let file_path = entry.path();
-        println!("📂 Trovato file: {}", file_path.display());
 
         if let Ok(relative_path) = file_path.strip_prefix(base_path) {
             let mut folders = Vec::new();
@@ -30,7 +29,6 @@ pub fn find_functions_by_folder(is_public: bool, path: &str) -> HashMap<String, 
                 .unwrap_or_else(|| "unknown".to_string());
 
             let contenuto = fs::read_to_string(file_path).unwrap_or_else(|_| String::new());
-            println!("📄 Analizzando file: {}\n", file_name);
 
             if let Ok(parsed) = syn::parse_file(&contenuto) {
                 let mut functions = Vec::new();
@@ -41,7 +39,6 @@ pub fn find_functions_by_folder(is_public: bool, path: &str) -> HashMap<String, 
                         Item::Fn(ItemFn { vis, sig, .. }) => {
                             let is_pub = matches!(vis, syn::Visibility::Public(_));
                             if is_public && is_pub || !is_public {
-                                println!("🔹 Funzione globale trovata: {}", sig.ident);
                                 functions.push(sig.ident.to_string());
                             }
                         }
@@ -49,7 +46,6 @@ pub fn find_functions_by_folder(is_public: bool, path: &str) -> HashMap<String, 
                         Item::Impl(ItemImpl { items, .. }) => {
                             for impl_item in items {
                                 if let ImplItem::Fn(method) = impl_item {
-                                    println!("🔸 Metodo trovato: {}", method.sig.ident);
                                     functions.push(method.sig.ident.to_string());
                                 }
                             }

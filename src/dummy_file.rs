@@ -1,0 +1,1 @@
+//benchmark_manager::manage_benchmark(&path, result);

@@ -1,15 +1,13 @@
 use inquire::Select;
 use inquire::Text;
-use project_analyzer::benchmark_manager::*;
-use project_analyzer::class_manager::show_tree_methods;
-use antipatterns::*;
-use project_analyzer::*;
+use thesis_project::profiler_reader::summary;
 
-use std::collections::HashMap;
+use std::error::Error;
 use std::path;
 use std::path::Path;
 use std::process::{Command, exit};
 use std::result;
+use thesis_project::profiler_reader;
 
 mod project_analyzer;
 mod antipatterns;
@@ -38,8 +36,10 @@ fn main() {
 
     //source_finder();
 
-    //TODO da rimuovere e sostituire con source_finder()
-    run_program("C:\\Projects\\Rust\\example\\example_project".to_string());
+    //TODO da rimuovere e sostituire con source_finder() in riga 39
+    //let _ = run_program("C:\\Projects\\Rust\\example\\example_project".to_string());
+
+    choose_antipattern("C:\\Projects\\Rust\\example\\example_project".to_string());
 
     fn source_finder() {
         loop {
@@ -64,33 +64,55 @@ fn main() {
             }
     
             println!("Hai inserito un percorso valido: {}", path);
-            run_program(path);
+            // choose_antipattern(path);
+            //let _ = run_program(path);
 
             break;
         }
     }
 
-    fn run_program(path: String){
+    fn run_program(path: String) -> Result<(), Box<dyn Error>>{
 
-        //   C:\Projects\Rust\example\example_project
+        // C:\Projects\Rust\example\example_project
 
-        let result: HashMap<String, HashMap<String, Vec<String>>> = functions_finder::find_functions_by_folder(true, &path);
-        
-        if result.is_empty(){
-            println!("Nessuna funzione pubblica trovata per il benchmark");
-            return;
+        // C:\Projects\Rust\example\example_project\sample (matrix)\r000hs\report.csv
+        let filename = "C:\\Projects\\Rust\\example\\example_project\\sample (matrix)\\r000hs\\report.csv";
+        // let execution_times = summary::hotspot_reader::extract_execution_times(filename)?;
+
+        // for (function, time) in &execution_times {
+        //     println!("{} -> {:.6}s", function, time);
+        // }
+
+        let another_filename = "C:\\Projects\\Rust\\example\\example_project\\sample (matrix)\\r004macc\\report.csv";
+
+        summary::memory_access_reader::read_memory_access_summary(another_filename)?;
+
+        Ok(())
+
+    }
+
+    fn choose_antipattern(path: String) {
+        let options = vec!["Blob", "Wrong Cache Strategy", "Esci"];
+    
+        let selection = Select::new("Scegli una delle opzioni:", options.clone())
+            .prompt()  // Mostra il menu
+            .unwrap(); // Gestisce l'errore
+    
+        println!("Hai scelto: {}", selection);
+    
+        if let Some(index) = options.iter().position(|&s| s == selection) {
+            match index {
+                0 => antipatterns::detect_blob::detect_blob(path),
+                1 => antipatterns::detect_wcs::detect_wcs(path),
+                2 => {
+                    println!("Uscendo...");
+                    return;
+                },
+                _ => println!("Opzione non valida"),
+            }
+        } else {
+            println!("Opzione non valida");
         }
-
-        show_tree_methods(result, &path);
-
-
-
-
-        //benchmark_manager::manage_benchmark(&path, result);
-
-        let mut function_execution_time_map: HashMap<String, f64> = HashMap::new();
-        //function_execution_time_map = data_manager::get_function_execution_time(path);
-        
     }
 
 

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use sysinfo::System;
 use crate::project_analyzer::class_manager;
 
-/// Simula il recupero dell'uso medio della CPU.
+/// CAMBIARE SI PRENDE DAL PROFILER
 fn get_avg_cpu_usage() -> f32 {
     let mut sys = System::new_all();
     sys.refresh_cpu();

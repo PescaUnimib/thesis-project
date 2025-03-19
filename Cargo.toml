@@ -17,7 +17,8 @@ clap = { version = "4.0", features = ["derive"] }
 inquire = "0.4"
 sysinfo = "0.30"
 scraper = "0.12"
-select = "0.5"  # Una libreria per il parsing e la selezione di elementi in HTML
+select = "0.5"
+csv = "1"
 
 [lib]
 name = "thesis_project"
