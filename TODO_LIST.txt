@@ -1,10 +1,32 @@
 Cose da fare
 1. Implementare i 7 antipattern
-2. Recuperare i tempi di esecuzione dei metodi tramite criterion
+2. Recuperare i tempi di esecuzione dei metodi tramite criterion o profiler
+
+    
 
 
 
-    // let count_offset = 0.05;
-    // let cpu_th = 0.01;
-    // let option = 0;
-    // antipatterns::circuit_treasure_hunt::detect_cth(countOffset, cpuTh, option);
+
+
+// pub fn show_tree_methods(result: HashMap<String, HashMap<String, Vec<String>>>, path: &str) {
+//     let mut methods = HashMap::new();
+//     for (folder, files) in result.iter() {
+//         for (file, functions) in files.iter() {
+//             for _function in functions {
+//                 let file_path = format!("{}\\src\\{}\\{}", path, folder, file);
+//                 for (method_name, count) in project_analyzer::class_manager::count_methods(&file_path) {
+//                     methods.entry(method_name).or_insert(count);
+//                 }
+//             }
+//         }
+//     }
+
+//     // Riordinamento mappa per numero di chiamate
+//     let mut method_count: Vec<_> = methods.into_iter().collect();
+//     method_count.sort_by(|a, b| b.1.cmp(&a.1)); // Ordina in base al numero di chiamate (decrescente)
+
+
+//     for (method_name, count) in method_count.iter() {
+//         println!("Nome metodo: {} Chiamate: {}", method_name, count);
+//     }
+// }

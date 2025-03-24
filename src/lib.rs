@@ -1,3 +1,3 @@
-pub mod antipatterns;
 pub mod project_analyzer;
-pub mod profiler_reader;
+pub mod antipatterns;
+pub mod profiler_manager;
